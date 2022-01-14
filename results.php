@@ -4,6 +4,16 @@ abstract class Animal {
     public $name; 
     public $picture; 
 
+    function onClickPicture() {
+        $text = 'alert("'; 
+        $text .= $this->name; 
+        $text .= " Sounds: "; 
+        $text .= $this->makeSound(); 
+        $text .= '");'; 
+        return $text; 
+    }
+
+
     function __construct($name, $picture) {
         $this->name = $name;
         $this->picture = $picture; 
@@ -11,6 +21,10 @@ abstract class Animal {
 
     abstract function makeSound();
 
+
+    function alertPicture() {
+        echo "<img src='".$this->picture. "' onClick= '" .$this->onClickPicture(). "'/>"; 
+    }
 
 }
 
@@ -21,7 +35,7 @@ class Apa extends Animal {
     }
 
     function makeSound() {
-        echo "<script>alert($this -> name) . (' Sounds') . (' AOOOPAAA')<script>"; 
+        return "AOOOPAAA"; 
     }
 
 }
@@ -35,7 +49,7 @@ class Giraff extends Animal {
 
     
     function makeSound() {
-        echo "<script>alert($this -> name) . (' Sounds') . (' IAWOOO')<script>"; 
+        return "IAWOOO"; 
 
     }
 
@@ -50,7 +64,7 @@ class Tiger extends Animal {
 
     
     function makeSound() {
-        echo "<script>alert($this -> name) . (' Sounds') . (' WAAAGH')<script>"; 
+        return "WAAAGH"; 
 
     }
 
@@ -65,7 +79,7 @@ class Coconut extends Animal {
     
     
     function makeSound() {
-        echo "<script>alert($this -> name) . (' Sounds') . (' PLOOOP')<script>"; 
+        return "PLOOOP"; 
         
     }
     
@@ -114,8 +128,8 @@ if(isset($_SERVER["REQUEST_METHOD"]) && ($_SERVER["REQUEST_METHOD"] == "POST")) 
             $name = json_decode($rawData)->results[0]->name->first; 
             $apaAnimal = new Apa($name, "./apa/monkey" . $pictureCount . ".jpg"); 
 
-            echo json_encode($name); 
-            echo '<img src="' . $apaAnimal->picture. '"alt="Bild på Apa"><br>'; 
+            //echo json_encode($name); 
+            //echo '<img src="' . $apaAnimal->picture. '"alt="Bild på Apa"><br>'; 
             $pictureCount = animalsPicture($pictureCount); 
 
             array_push($listOfAnimals, $apaAnimal); 
@@ -129,8 +143,8 @@ if(isset($_SERVER["REQUEST_METHOD"]) && ($_SERVER["REQUEST_METHOD"] == "POST")) 
             $name = json_decode($rawData)->results[0]->name->first; 
             $giraffAnimal = new Giraff($name, "./giraff/giraffe" . $pictureCount . ".jpg"); 
 
-            echo json_encode($name); 
-            echo '<img src="' . $giraffAnimal->picture. '"alt="Bild på Giraff"><br>';
+            //echo json_encode($name); 
+            //echo '<img src="' . $giraffAnimal->picture. '"alt="Bild på Giraff"><br>';
             $pictureCount = animalsPicture($pictureCount); 
 
             array_push($listOfAnimals, $giraffAnimal); 
@@ -143,8 +157,8 @@ if(isset($_SERVER["REQUEST_METHOD"]) && ($_SERVER["REQUEST_METHOD"] == "POST")) 
             $name = json_decode($rawData)->results[0]->name->first; 
             $tigerAnimal = new Tiger($name, "./tiger/tiger" . $pictureCount . ".jpg"); 
 
-            echo json_encode($name); 
-            echo '<img src="' . $tigerAnimal->picture. '"alt="Bild på Tiger"><br>';
+            //echo json_encode($name); 
+            //echo '<img src="' . $tigerAnimal->picture. '"alt="Bild på Tiger"><br>';
             $pictureCount = animalsPicture($pictureCount); 
 
             array_push($listOfAnimals, $tigerAnimal); 
@@ -158,12 +172,19 @@ if(isset($_SERVER["REQUEST_METHOD"]) && ($_SERVER["REQUEST_METHOD"] == "POST")) 
             $name = json_decode($rawData)->results[0]->name->first; 
             $coconutInZoo = new Coconut($name, "./coconut/coco" . $picCount . ".jpg"); 
 
-            echo json_encode($name); 
-            echo '<img src="' . $coconutInZoo->picture. '"alt="Bild på Kokos i Djurpark"><br>';
+            //echo json_encode($name); 
+            //echo '<img src="' . $coconutInZoo->picture. '"alt="Bild på Kokos i Djurpark"><br>';
             $picCount = coconutPicture($picCount); 
 
             array_push($listOfAnimals, $coconutInZoo); 
 
+        }
+
+
+        foreach ($listOfAnimals as $animalsSounds) {
+            $animalsSounds->alertPicture(); 
+
+            echo $animalsSounds->name. " "; 
         }
 
     }
