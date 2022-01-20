@@ -1,9 +1,10 @@
 <?php
 
+
 abstract class Animal {
     public $name; 
     public $picture; 
-
+    
     function onClickPicture() {
         $text = 'alert("'; 
         $text .= $this->name; 
@@ -12,20 +13,20 @@ abstract class Animal {
         $text .= '");'; 
         return $text; 
     }
-
-
+    
+    
     function __construct($name, $picture) {
         $this->name = $name;
         $this->picture = $picture; 
     }
-
+    
     abstract function makeSound();
-
-
+    
+    
     function alertPicture() {
         echo "<img src='".$this->picture. "' onClick= '" .$this->onClickPicture(). "'/>"; 
     }
-
+    
 }
 
 class Apa extends Animal {
@@ -33,41 +34,41 @@ class Apa extends Animal {
     function __construct($name, $picture) {
         parent::__construct($name, $picture);
     }
-
+    
     function makeSound() {
         return "AOOOPAAA"; 
     }
-
+    
 }
 
 class Giraff extends Animal {
-
-
+    
+    
     function __construct($name, $picture) {
         parent::__construct($name, $picture);
     }
-
+    
     
     function makeSound() {
         return "IAWOOO"; 
-
+        
     }
-
+    
 }
 
 class Tiger extends Animal {
-
-
+    
+    
     function __construct($name, $picture) {
         parent::__construct($name, $picture); 
     }
-
+    
     
     function makeSound() {
         return "WAAAGH"; 
-
+        
     }
-
+    
 }
 
 class Coconut extends Animal {
@@ -92,7 +93,7 @@ function animalsPicture($pictureCount) {
     } else {
         return $pictureCount + 1; 
     }
-
+    
 }
 
 function coconutPicture($picCount) {
@@ -104,12 +105,17 @@ function coconutPicture($picCount) {
 }
 
 
+
+session_start(); 
+
+
+
 if(isset($_SERVER["REQUEST_METHOD"]) && ($_SERVER["REQUEST_METHOD"] == "POST")) {
-
+    
     if(empty($_POST["Apa"]) && empty($_POST["Giraff"]) && empty($_POST["Coconut"]) && empty($_POST["Tiger"])) {
-
+        
         echo "Please choose a number"; 
-
+        
     }
     
     if(isset($_POST["Apa"]) && isset($_POST["Giraff"]) && isset($_POST["Coconut"]) && isset($_POST["Tiger"])) {
